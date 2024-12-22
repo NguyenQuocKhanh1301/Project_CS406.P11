@@ -27,7 +27,7 @@
 <a name ="giới-thiệu-nhóm"></a>
 ## CONTRIBUTORS
 | No. | FULL NAME | STUDENT ID | Email | Github | 
-| :--- | --- | --- | --- | --- | --- | --- |
+| :--- | --- | --- | --- | --- |
 | 1 | Nguyen Quoc Khanh | 22520646 | 22520646@gm.uit.edu.vn | [NguyenQuocKhanh1301](https://github.com/NguyenQuocKhanh1301) | 
 | 2 | Nguyen Manh Tuong | 22521626 |  22521626@gm.uit.edu.vn | [greatwall2704](https://github.com/greatwall2704) | 
 
