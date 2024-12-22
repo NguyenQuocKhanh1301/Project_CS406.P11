@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>CS406.P11 - Nhận diện và làm mờ biển số</title>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <style>
+    .dashed-border {
+      border: dashed 2px #dee2e6 !important;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      background: #434343;
+    }
+
+    svg {
+      fill: #dee2e6;
+      transition: 0.75s;
+    }
+
+    svg:hover {
+      fill: #6c757d;
+    }
+
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: transparent;
+      background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+      background-repeat: no-repeat;
+
+      background-position-x: 100%;
+      background-position-y: 5px;
+      padding: 1rem;
+      padding-right: 2rem;
+    }
+
+    .footer {
+      padding-top: 15px;
+      padding-bottom: 5px;
+      text-align: center;
+      color: #000000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <form class="container mt-5" method="POST" action="/" enctype="multipart/form-data">
+    <div class="row">
+      <div class="col-8">
+        <div id="selector" class="dashed-border w-100"
+          style="height: 512px; display: flex; align-content: space-around; justify-content: center; flex-wrap: wrap;">
+          <div class="text-center">
+            <img id="image" style="max-height: 512px; max-width: 100%; display: none;">
+            <svg id="logo" width="136" height="98" viewBox="0 0 136 98" xmlns="http://www.w3.org/2000/svg">
+              <image href="https://upload.wikimedia.org/wikipedia/commons/3/38/Logo_UIT_updated.jpg" width="136"
+                height="98" />
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <label>Select image file</label>
+            <input type="file" id="image-file" name="image" class="form-control mt-2" accept="image/png, image/jpeg"
+              required>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col">
+            <div class="form-group">
+              <label>Blur method</label>
+              <select id="blur-method" name="typeBlur" class="form-control mt-2">
+                <option value="1">Gaussian Blur</option>
+                <option value="2">Median Blur</option>
+                <option value="3">Replace by Image</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label>Model</label>
+              <select class="form-control mt-2" id="model-select" name="model">
+                <option id="yolo-infor" value="yolo">YOLOv8</option>
+                <option id="fasterrcnn-infor" value="fasterrcnn">FasterRCNN</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div id="slide-of-size" class="col">
+            <label class="form-label">Size of kernel:</label>
+            <output>7</output>
+            <input type="range" name="kernelSize" class="form-range" min="1" max="101" value="7" step="2"
+              oninput="this.previousElementSibling.value=this.value">
+          </div>
+          <div id="slide-of-depth" class="col" style="display: none;">
+            <label class="form-label">Loss:</label>
+            <output>32</output>
+            <input type="range" name="kernelDepth" class="form-range" min="1" max="255" value="32"
+              oninput="this.previousElementSibling.value=this.value">
+          </div>
+        </div>
+        <div id="image-replace" class="row" style="display: none;">
+          <div class="col">
+            <label>Select image replace file</label>
+            <input type="file" name="imageReplace" class="form-control mt-2" accept="image/png, image/jpeg">
+          </div>
+        </div>
+        <!-- <div class="row mt-3"> -->
+        <!-- <div class="col"> -->
+        <!-- <label class="form-label">Confidence:</label> -->
+        <!-- <output>0.6</output> -->
+        <!-- <input type="range" class="form-range" min="10" max="90" value="60" oninput="this.previousElementSibling.value=this.value / 100"> -->
+        <!-- </div> -->
+        <!-- </div> -->
+        <div class="row mt-3">
+          <div class="col text-center">
+            <button type="submit" class="btn btn-secondary">Detecting and Bluring</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  {% if filename %}
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <div class="dashed-border w-100"
+          style="height: 640px; display: flex; align-content: space-around; justify-content: center; flex-wrap: wrap;">
+          <div class="text-center">
+            <img style="max-height: 640px; max-width: 100%;" src="{{ url_for('displayImageDes', filename=filename) }}">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3 mb-3">
+      <div class="col text-center">
+        <a type="submit" href="{{ url_for('downloadFile', filename=filename) }}" target="_blank"
+          class="btn btn-success">Download</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $("#logo").hide();
+    document.getElementById("image").src = "{{ url_for('displayImageSrc', filename=filename) }}";
+    $("#image").show();
+  </script>
+  {% endif %}
+
+  <script>
+    $("#image-file").change((e) => {
+      let target = e.target || window.event.srcElement;
+      let files = target.files;
+
+      if (FileReader && files && files.length) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          $("#logo").hide();
+          $("#image").show();
+          document.getElementById("image").src = reader.result;
+        }
+
+        reader.readAsDataURL(files[0]);
+      } else {
+        $("#logo").show();
+        $("#image").hide();
+      }
+    });
+
+    $("#blur-method").change((e) => {
+      if ($("#blur-method").val() == 3) {
+
+        $("#image-replace").show();
+        $("#slide-of-size").hide();
+        $("#slide-of-depth").hide();
+      } else {
+        $("#image-replace").hide();
+        $("#slide-of-size").show();
+      }
+    });
+  </script>
+
+  <script>
+    $("#model-select").change((e) => {
+      // Get the selected value
+      const selectedModel = e.target.value;
+      // Show or hide elements based on the selected model
+      if (selectedModel === 'yolo') {
+        $("#yolo-info").removeClass("hidden");
+        $("#fasterrcnn-info").addClass("hidden");
+      } else if (selectedModel === 'fasterrcnn') {
+        $("#fasterrcnn-info").removeClass("hidden");
+        $("#yolo-info").addClass("hidden");
+      }
+
+      // Optionally log the selected model (or send it to a server, etc.)
+      console.log(`Selected model: ${selectedModel}`);
+    });
+  </script>
+
+</body>
+
+</html>
