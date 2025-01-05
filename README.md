@@ -21,8 +21,8 @@
 * **Subject:** IMAGE PROCESSING AND APPLICATIONS
 * **ID:** CS406
 * **CLASS ID:** CS406.P11
-* **YEAR:** 2021 - 2022
-* **LECTURER:** PhD. Dung Mai Tien - *dungmt@uit.edu.vn*
+* **YEAR:** 2024 - 2025
+* **LECTURER:** PhD. Cáp Phạm Đình Thăng
 
 <a name ="giới-thiệu-nhóm"></a>
 ## CONTRIBUTORS
@@ -34,8 +34,6 @@
 <a name ="giới-thiệu-đề-tài"></a>
 ## FINAL PROJECT
 <h3 align="center">PROJECT: AUTOMATIC LICENSE PLATE DETECTION AND CENSORING</h3>
-Abstraction: 
-
 <a name ="cài-đặt"></a>
 ## INSTALL
 
@@ -49,5 +47,7 @@ Abstraction:
 <a name = "tài-liệu-tham-khảo"></a>
 ## CITATION
 1. https://github.com/facebookresearch/detectron2
-2. 
-
+2. https://github.com/19520195/CS406.M11
+3. https://arxiv.org/pdf/1506.01497
+## DATASET:
+*Licens Plate Detection Dataset*(https://github.com/trungdinh22/License-Plate-Recognition)
