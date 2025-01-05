@@ -18,16 +18,11 @@ class modelFasterRCNN:
         self.model.load_state_dict(checkpoint)        
         self.transform = transforms.Compose([
             transforms.ToPILImage(),
-            transforms.Resize((640, 640)),  # Resize to 640x640
             transforms.ToTensor(),
         ])
         print("Loaded: FASTER RCNN")
         
     def predict(self, image):
-        # Store original dimensions
-        original_height, original_width = image.shape[:2]
-        
-        # Transform the image
         image_transformed = self.transform(image)
         # image_transformed = image_transformed.unsqueeze(0)  # Add batch dimension -> [1, C, H, W]
         
@@ -35,24 +30,23 @@ class modelFasterRCNN:
         self.model.to(self.device)
         self.model.eval()
         
+        start_time = time.time()
         with torch.no_grad():
             # Perform inference
             predictions = self.model([image_transformed.to(self.device)])
-        
+        end_time = time.time()
+        print(f'time to detect{end_time - start_time}')
         # Extract and rescale bounding boxes
         boxes = []
         for box, score in zip(predictions[0]['boxes'], predictions[0]['scores']):
             if score > self.threshold:  # Confidence threshold
                 # Scale bounding box back to original image size
-                x_min, y_min, x_max, y_max = box.tolist()
-                scale_width = original_width / 640  # Scaling factor for width
-                scale_height = original_height / 640  # Scaling factor for height
+                x_min, y_min, x_max, y_max = box.tolist()                
                 
-                # Rescale coordinates
-                x_min = int(x_min * scale_width)
-                y_min = int(y_min * scale_height)
-                x_max = int(x_max * scale_width)
-                y_max = int(y_max * scale_height)
+                x_min = int(x_min )
+                y_min = int(y_min )
+                x_max = int(x_max )
+                y_max = int(y_max )
                 
                 # Append rescaled bounding box
                 boxes.append([x_min, y_min, x_max, y_max])
