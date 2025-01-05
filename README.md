@@ -12,7 +12,6 @@
 * [Introduction](#giới-thiệu-môn-học)
 * [Contributors](#giới-thiệu-nhóm)
 * [Introduction Project](#giới-thiệu-đề-tài)
-* [Install](#cài-đặt)
 * [Pretrained Checkpoint](#checkpoint)
 * [Citation](#tài-liệu-tham-khảo)
 
@@ -50,4 +49,4 @@
 2. https://github.com/19520195/CS406.M11
 3. https://arxiv.org/pdf/1506.01497
 ## DATASET:
-*Licens Plate Detection Dataset*(https://github.com/trungdinh22/License-Plate-Recognition)
+*Licens Plate Detection Dataset* (https://github.com/trungdinh22/License-Plate-Recognition)
