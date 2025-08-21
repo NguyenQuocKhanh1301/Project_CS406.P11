@@ -43,10 +43,5 @@
 | [FASTER RCNN (DATA RAW)]| 99.46 | 73.95 |  
 | [YOLOV8 (DATA RAW)]| 98.97 | 68.42 | 
 
-<a name = "tài-liệu-tham-khảo"></a>
-## CITATION
-1. https://github.com/facebookresearch/detectron2
-2. https://github.com/19520195/CS406.M11
-3. https://arxiv.org/pdf/1506.01497
 ## DATASET:
 *Licens Plate Detection Dataset* (https://github.com/trungdinh22/License-Plate-Recognition)
